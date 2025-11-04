@@ -2,32 +2,25 @@ package org.top.countrydirectoryapp.model;
 
 import java.util.List;
 
-// CountryScenario - сценарии для работы со странами
 public class CountryScenario {
 
-    // хранилище стран
     private final CountryStorage storage;
 
     public CountryScenario(CountryStorage storage) {
         this.storage = storage;
     }
 
-    // getAll - получение всех стран из справочника
-    // вход: -
-    // выход: список стран
-    // исключения: -
     public List<Country> getAll() {
-        throw new UnsupportedOperationException("implement me");
+        return storage.selectAll();
     }
 
-    // get - получение страны по коду
-    // вход: код страны в любом формате (isoAlpha2, isoAlpha3, isoNumeric)
-    // выход: страна с заданным кодом
-    // исключения:
-    //  - CountryNotFoundException - страна с данным кодом не найдена
-    //  - InvalidCodeException - переданный код не является валидным кодом страны
     public Country get(String code) {
-        throw new UnsupportedOperationException("implement me");
+        validateCode(code);
+        Country country = storage.selectByCode(code);
+        if (country == null) {
+            throw new CountryNotFoundException(code);
+        }
+        return country;
     }
 
     // store - добавление новой страны в справочник
@@ -37,36 +30,64 @@ public class CountryScenario {
     //  - InvalidCodeException - код переданной страны не является валидным кодом страны
     //  - DuplicatedCodeException - код переданной страны уже встречается в другой записи
     public void store(Country country) {
-        throw new UnsupportedOperationException("implement me");
+        validateCountryForStore(country);
+        storage.insert(country); // Вызов метода в хранилище
     }
 
-    // edit - редактирование страны, разрешено редактировать все поля кроме кодов
-    // вход:
-    //  - code: код страны в любом формате (isoAlpha2, isoAlpha3, isoNumeric), по которому нужно найти запись
-    //  - country: объект страны, в котором:
-    //    - поля кодов (isoAlpha2, isoAlpha3, isoNumeric) должны совпадать с кодами в существующей записи
-    //    - значения остальных полей могут отличаться от объекта в системе
-    // выход: -
-    // исключения:
-    //  - CountryNotFoundException - страна с данным кодом не найдена
-    //  - InvalidCodeException - переданный код не является валидным кодом страны
     public void edit(String code, Country country) {
-        throw new UnsupportedOperationException("implement me");
+        validateCode(code);
+        validateCountryForEdit(country);
+        storage.update(code, country);
     }
 
-    // delete - удаление страны из справочника по коду
-    // вход: код страны в любом формате (isoAlpha2, isoAlpha3, isoNumeric)
-    // выход: -
-    // исключения:
-    //  - CountryNotFoundException - страна с данным кодом не найдена
-    //  - InvalidCodeException - переданный код не является валидным кодом страны
     public void delete(String code) {
-        throw new UnsupportedOperationException("implement me");
+        validateCode(code);
+        storage.deleteByCode(code);
     }
 
-    // validateCode - вспомогательный метод валидации кода (пока заглушка)
-    // Принимает код, проверяет его формат, бросает InvalidCodeException если невалидный
+    // validateCode - вспомогательный метод валидации кода
     private void validateCode(String code) {
-        throw new UnsupportedOperationException("implement me");
+        if (code == null) {
+            throw new InvalidCodeException("null", "code is null");
+        }
+        if (!code.matches("[A-Za-z]{2}") && !code.matches("[A-Za-z]{3}") && !code.matches("\\d+")) {
+            throw new InvalidCodeException(code, "code format is invalid. Expected 2-letter, 3-letter, or numeric code.");
+        }
+    }
+
+    // validateCountryForStore - вспомогательный метод валидации страны перед сохранением
+    private void validateCountryForStore(Country country) {
+        // Проверка наименований
+        if (country.getShortName() == null || country.getShortName().trim().isEmpty()) {
+            throw new InvalidCodeException("shortName", "shortName cannot be null or empty");
+        }
+        if (country.getFullName() == null || country.getFullName().trim().isEmpty()) {
+            throw new InvalidCodeException("fullName", "fullName cannot be null or empty");
+        }
+
+        // Проверка кодов (с использованием уже существующего метода validateCode)
+        validateCode(country.getIsoAlpha2());
+        validateCode(country.getIsoAlpha3());
+        validateCode(country.getIsoNumeric());
+
+        // Проверка population и square
+        if (country.getPopulation() == null || country.getPopulation() < 0) {
+            throw new InvalidCodeException("population", "population must be non-negative");
+        }
+        if (country.getSquare() == null || country.getSquare() < 0) {
+            throw new InvalidCodeException("square", "square must be non-negative");
+        }
+    }
+
+    // validateCountryForEdit - вспомогательный метод валидации страны перед редактированием
+    private void validateCountryForEdit(Country country) {
+        // Проверка population и square
+        if (country.getPopulation() == null || country.getPopulation() < 0) {
+            throw new InvalidCodeException("population", "population must be non-negative");
+        }
+        if (country.getSquare() == null || country.getSquare() < 0) {
+            throw new InvalidCodeException("square", "square must be non-negative");
+        }
+        // Коды проверяются в storage.update
     }
 }

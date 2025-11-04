@@ -9,5 +9,4 @@ public class CountryDirectoryAppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CountryDirectoryAppApplication.class, args);
 	}
-
 }

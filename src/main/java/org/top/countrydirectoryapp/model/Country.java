@@ -1,18 +1,16 @@
 package org.top.countrydirectoryapp.model;
 
 public class Country {
-    private String shortName;  // короткое наименование страны
-    private String fullName;   // полное наименование страны
-    private String isoAlpha2;  // двухбуквенный код страны (RU)
-    private String isoAlpha3;  // трехбуквенный код страны (RUS)
-    private String isoNumeric; // числовой код страны -
-    private Long population;   // население страны -
-    private Long square;       // площадь страны кв. км.
+    private String shortName;
+    private String fullName;
+    private String isoAlpha2;
+    private String isoAlpha3;
+    private String isoNumeric;
+    private Long population;
+    private Long square;
 
-    // Пустой конструктор
     public Country() {}
 
-    // Конструктор со всеми полями
     public Country(String shortName, String fullName, String isoAlpha2, String isoAlpha3, String isoNumeric, Long population, Long square) {
         this.shortName = shortName;
         this.fullName = fullName;
@@ -24,59 +22,24 @@ public class Country {
     }
 
     // Геттеры и сеттеры
-    public String getShortName() {
-        return shortName;
-    }
+    public String getShortName() { return shortName; }
+    public void setShortName(String shortName) { this.shortName = shortName; }
 
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
-    }
+    public String getFullName() { return fullName; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
 
-    public String getFullName() {
-        return fullName;
-    }
+    public String getIsoAlpha2() { return isoAlpha2; }
+    public void setIsoAlpha2(String isoAlpha2) { this.isoAlpha2 = isoAlpha2; }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
+    public String getIsoAlpha3() { return isoAlpha3; }
+    public void setIsoAlpha3(String isoAlpha3) { this.isoAlpha3 = isoAlpha3; }
 
-    public String getIsoAlpha2() {
-        return isoAlpha2;
-    }
+    public String getIsoNumeric() { return isoNumeric; }
+    public void setIsoNumeric(String isoNumeric) { this.isoNumeric = isoNumeric; }
 
-    public void setIsoAlpha2(String isoAlpha2) {
-        this.isoAlpha2 = isoAlpha2;
-    }
+    public Long getPopulation() { return population; }
+    public void setPopulation(Long population) { this.population = population; }
 
-    public String getIsoAlpha3() {
-        return isoAlpha3;
-    }
-
-    public void setIsoAlpha3(String isoAlpha3) {
-        this.isoAlpha3 = isoAlpha3;
-    }
-
-    public String getIsoNumeric() {
-        return isoNumeric;
-    }
-
-    public void setIsoNumeric(String isoNumeric) {
-        this.isoNumeric = isoNumeric;
-    }
-
-    public Long getPopulation() {
-        return population;
-    }
-
-    public void setPopulation(Long population) {
-        this.population = population;
-    }
-
-    public Long getSquare() {
-        return square;
-    }
-
-    public void setSquare(Long square) {
-        this.square = square;
-    }
+    public Long getSquare() { return square; }
+    public void setSquare(Long square) { this.square = square; }
 }

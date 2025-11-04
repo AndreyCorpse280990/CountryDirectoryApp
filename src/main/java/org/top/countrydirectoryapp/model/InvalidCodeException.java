@@ -1,6 +1,5 @@
 package org.top.countrydirectoryapp.model;
 
-// InvalidCodeException - ошибка, когда код страны недопустим
 public class InvalidCodeException extends RuntimeException {
     public InvalidCodeException(String code) {
         super(code + " is invalid");
