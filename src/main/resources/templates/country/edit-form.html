@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать страну</title>
+    <!-- Подключение Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Подключение кастомного CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container mt-4">
+    <h2>Редактировать страну</h2>
+
+    <!-- Сообщение об ошибке -->
+    <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+        <span th:text="${errorMessage}"></span>
+    </div>
+
+    <!-- Отображение страны, если она найдена -->
+    <div th:if="${country}">
+        <form th:object="${country}" method="post" th:action="@{/country/edit/{isoAlpha3}(isoAlpha3=${country.isoAlpha3})}">
+            <div class="mb-3">
+                <label for="shortName" class="form-label">Короткое наименование</label>
+                <input type="text" class="form-control" id="shortName" th:field="*{shortName}" required>
+            </div>
+            <div class="mb-3">
+                <label for="fullName" class="form-label">Полное наименование</label>
+                <input type="text" class="form-control" id="fullName" th:field="*{fullName}" required>
+            </div>
+            <div class="mb-3">
+                <label for="isoAlpha2" class="form-label">ISO Alpha-2 (не редактируется)</label>
+                <input type="text" class="form-control" id="isoAlpha2" th:field="*{isoAlpha2}" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="isoAlpha3" class="form-label">ISO Alpha-3 (не редактируется)</label>
+                <input type="text" class="form-control" id="isoAlpha3" th:field="*{isoAlpha3}" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="isoNumeric" class="form-label">ISO Numeric (не редактируется)</label>
+                <input type="text" class="form-control" id="isoNumeric" th:field="*{isoNumeric}" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="population" class="form-label">Население</label>
+                <input type="number" class="form-control" id="population" th:field="*{population}" min="0" required>
+            </div>
+            <div class="mb-3">
+                <label for="square" class="form-label">Площадь</label>
+                <input type="number" class="form-control" id="square" th:field="*{square}" min="0" required>
+            </div>
+            <button type="submit" class="btn btn-success">Сохранить</button>
+            <a href="/country" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+
+    <!-- Если страна не найдена -->
+    <div th:unless="${country}">
+        <p class="text-danger">Страна не найдена.</p>
+        <a href="/country" class="btn btn-secondary">Назад к списку</a>
+    </div>
+
+</div>
+</body>
+</html>
