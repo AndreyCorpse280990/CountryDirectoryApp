@@ -24,11 +24,6 @@ public class CountryScenario {
     }
 
     // store - добавление новой страны в справочник
-    // вход: объект страны для добавления с заполненными полями
-    // выход: -
-    // исключения:
-    //  - InvalidCodeException - код переданной страны не является валидным кодом страны
-    //  - DuplicatedCodeException - код переданной страны уже встречается в другой записи
     public void store(Country country) {
         validateCountryForStore(country);
         storage.insert(country); // Вызов метода в хранилище

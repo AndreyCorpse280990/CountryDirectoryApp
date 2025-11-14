@@ -40,26 +40,26 @@ public class CountryController {
     }
 
     @DeleteMapping("{code}") // DELETE /api/country/{code}
-    @ResponseStatus(HttpStatus.NO_CONTENT) // Возвращаем 204 No Content
-    public void delete(@PathVariable String code) { // Принимаем код
+    @ResponseStatus(HttpStatus.NO_CONTENT) //204 No Content
+    public void delete(@PathVariable String code) {
         countries.delete(code);
     }
 
     // Обработчики исключений
     @ExceptionHandler(CountryNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND) // Возвращаем 404
+    @ResponseStatus(HttpStatus.NOT_FOUND) //404
     public CommonApiMessages.ErrorMessage handleCountryNotFound(CountryNotFoundException e) {
         return new CommonApiMessages.ErrorMessage(e.getClass().getSimpleName(), e.getMessage());
     }
 
     @ExceptionHandler(DuplicatedCodeException.class)
-    @ResponseStatus(HttpStatus.CONFLICT) // Возвращаем 409
+    @ResponseStatus(HttpStatus.CONFLICT) //409
     public CommonApiMessages.ErrorMessage handleDuplicatedCode(DuplicatedCodeException e) {
         return new CommonApiMessages.ErrorMessage(e.getClass().getSimpleName(), e.getMessage());
     }
 
     @ExceptionHandler(InvalidCodeException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST) // Возвращаем 400
+    @ResponseStatus(HttpStatus.BAD_REQUEST) // 400
     public CommonApiMessages.ErrorMessage handleInvalidCode(InvalidCodeException e) {
         return new CommonApiMessages.ErrorMessage(e.getClass().getSimpleName(), e.getMessage());
     }

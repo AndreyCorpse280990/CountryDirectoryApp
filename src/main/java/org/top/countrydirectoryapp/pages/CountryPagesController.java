@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.top.countrydirectoryapp.api.message.CommonApiMessages;
 import org.top.countrydirectoryapp.model.*;
 
 import java.util.List;
@@ -53,8 +52,8 @@ public class CountryPagesController {
     @GetMapping("edit/{code}")
     public String getEditCountry(@PathVariable String code, Model model) {
         try {
-            Country country = countries.get(code); // Получаем страну по коду
-            model.addAttribute("country", country); // Передаём в модель
+            Country country = countries.get(code); 
+            model.addAttribute("country", country); 
         } catch (Exception e) {
             model.addAttribute("country", new Country());
             model.addAttribute("errorMessage", e.getMessage());
@@ -65,7 +64,7 @@ public class CountryPagesController {
     // POST /country/edit/{code} - обработка отправки формы редактирования
     @PostMapping("edit/{code}")
     public String postEditCountry(@PathVariable String code, Country country, RedirectAttributes ra) {
-        country.setIsoAlpha2(countries.get(code).getIsoAlpha2()); // Или используйте код из параметра, если не меняется
+        country.setIsoAlpha2(countries.get(code).getIsoAlpha2()); 
         country.setIsoAlpha3(countries.get(code).getIsoAlpha3());
         country.setIsoNumeric(countries.get(code).getIsoNumeric());
 

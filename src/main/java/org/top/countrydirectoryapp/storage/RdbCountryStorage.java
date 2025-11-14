@@ -40,7 +40,7 @@ public class RdbCountryStorage implements CountryStorage {
         if (entityOpt.isPresent()) {
             return entityOpt.get().asCountry();
         }
-        return null; // Возвращаем null, если не найдено
+        return null; 
     }
 
     @Override
@@ -56,10 +56,7 @@ public class RdbCountryStorage implements CountryStorage {
             else if (countryRepository.findByIsoNumeric(country.getIsoNumeric()).isPresent()) duplicateCode = country.getIsoNumeric();
             throw new DuplicatedCodeException(duplicateCode);
         }
-        // Проверка уникальности названий (если задание требует)
-        // Optional<CountryDbEntity> existingByName = countryRepository.findByShortName(country.getShortName()); // Добавь метод в репозиторий
-        // if (existingByName.isPresent()) throw new DuplicatedNameException(country.getShortName()); // Добавь исключение
-
+        // Проверка уникальности названий
         CountryDbEntity entity = new CountryDbEntity(country);
         countryRepository.save(entity);
     }
@@ -72,14 +69,14 @@ public class RdbCountryStorage implements CountryStorage {
             throw new CountryNotFoundException(code);
         }
 
-        // Проверим, не меняются ли коды
+        // Проверка, не меняются ли коды
         if (!country.getIsoAlpha2().equals(oldCountry.getIsoAlpha2()) ||
                 !country.getIsoAlpha3().equals(oldCountry.getIsoAlpha3()) ||
                 !country.getIsoNumeric().equals(oldCountry.getIsoNumeric())) {
             throw new InvalidCodeException(code, "Country codes cannot be changed during update");
         }
 
-        // Проверим, не дублируются ли названия/коды с другими записями
+        // Проверка, не дублируются ли названия/коды с другими записями
         Optional<CountryDbEntity> existingByAlpha2 = countryRepository.findByIsoAlpha2(country.getIsoAlpha2());
         Optional<CountryDbEntity> existingByAlpha3 = countryRepository.findByIsoAlpha3(country.getIsoAlpha3());
         Optional<CountryDbEntity> existingByNumeric = countryRepository.findByIsoNumeric(country.getIsoNumeric());
@@ -94,9 +91,8 @@ public class RdbCountryStorage implements CountryStorage {
             throw new DuplicatedCodeException(country.getIsoNumeric());
         }
 
-        // Обновим сущность
         CountryDbEntity entity = new CountryDbEntity(country);
-        entity.setId(findEntityIdByCode(code)); // Установим ID существующей записи
+        entity.setId(findEntityIdByCode(code));
         countryRepository.save(entity);
     }
 
