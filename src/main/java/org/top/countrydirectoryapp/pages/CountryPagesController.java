@@ -42,7 +42,6 @@ public class CountryPagesController {
             ra.addFlashAttribute("message", "Страна успешно добавлена");
         } catch (Exception e) {
             ra.addFlashAttribute("errorMessage", e.getMessage());
-            // Возвращаемся на форму с ошибкой
             return "redirect:/country/new";
         }
         return "redirect:/country"; // Редирект на список
@@ -73,19 +72,17 @@ public class CountryPagesController {
             ra.addFlashAttribute("message", "Страна успешно отредактирована");
         } catch (Exception e) {
             ra.addFlashAttribute("errorMessage", e.getMessage());
-            // Возвращаемся на форму с ошибкой
             return "redirect:/country/edit/" + code;
         }
-        return "redirect:/country"; // Редирект на список
+        return "redirect:/country";
     }
 
     @GetMapping("delete/{code}")
     public String deleteCountry(@PathVariable String code, RedirectAttributes ra) {
         try {
-            countries.delete(code); // Вызываем метод сценария
+            countries.delete(code);
             ra.addFlashAttribute("message", "Страна успешно удалена");
         } catch (Exception e) {
-            // Обработка ошибок (например, CountryNotFoundException, InvalidCodeException)
             ra.addFlashAttribute("errorMessage", e.getMessage());
         }
         return "redirect:/country";
@@ -95,7 +92,5 @@ public class CountryPagesController {
     public String index() {
         return "redirect:/country";
     }
-
-
 
 }

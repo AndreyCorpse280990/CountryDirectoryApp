@@ -83,6 +83,5 @@ public class CountryScenario {
         if (country.getSquare() == null || country.getSquare() < 0) {
             throw new InvalidCodeException("square", "square must be non-negative");
         }
-        // Коды проверяются в storage.update
     }
 }
